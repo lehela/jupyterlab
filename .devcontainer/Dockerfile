@@ -4,6 +4,12 @@ LABEL created_by=https://github.com/lehela/jupyter-notebooks.git
 
 ARG wheels=https://github.com/lehela/jupyterlab/raw/main/wheels
 
+# Match the UID and GID to the user running the docker container
+# This will ensure that the container volume binds don't have permission problems on the host
+# after the container is stopped or deleted
+ARG NB_UID="1001"
+ARG NB_GID="1001"
+
 # Install base OS dependencies
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     build-essential \
@@ -81,12 +87,15 @@ RUN pip3 install --disable-pip-version-check \
 #     widgetsnbextension\
 #     xlrd 
 
+# Copy the scripts to be used for building and starting the jupyter lab server
 COPY scripts/*.sh /usr/bin/
 
 RUN chmod 755 /usr/bin/*.sh \ 
-    && build_script.sh 
+    && build_script.sh $NB_UID $NB_GID
 
-WORKDIR /root
+# Do not run container as root
+USER jupyterlab
+WORKDIR /home/jupyterlab
 
 EXPOSE 8888
 

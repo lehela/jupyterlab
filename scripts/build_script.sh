@@ -1,17 +1,26 @@
 #!/bin/bash
 
-# Generate certificates
-cd /usr/share/ca-certificates
+NB_UID=$1
+NB_GID=$2
 
+# Generate certificates
 openssl req \
 	-x509 \
 	-nodes \
 	-days 365 \
 	-newkey rsa:2048 \
-	-keyout mykey.key \
-	-out mycert.pem \
+	-keyout /usr/share/ca-certificates\jupyterlab_key.key \
+	-out /usr/share/ca-certificates\jupyterlab_cert.pem \
 	-subj "/C=/ST=/L=/O=/OU=/CN="
 
-mdkir /notebooks
-
-jupyter notebook --generate-config
+# Add non-root user to run jupyterlabs
+addgroup \
+	--gid $NB_GID \
+	jupyterlab
+	
+adduser \
+	--uid $NB_UID \
+	--gid $NB_GID \
+	--disabled-password \
+	--gecos "" \
+	jupyterlab
