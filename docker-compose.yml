@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  jupyterlab:
+    image: lehela/jupyterlab
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile copy
+      target: prod
+    container_name: jupyterlab
+    init: true
+    environment: 
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - ./notebooks:/notebooks
+    ports:
+      - 8888:8888
