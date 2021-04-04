@@ -5,5 +5,5 @@ jupyter lab \
     --keyfile=/usr/share/ca-certificates/jupyterlab_key.key \
     --notebook-dir=/home/jupyterlab/notebooks \
     --no-browser \
-    --ip=0.0.0.0 \
-    --allow-root
+    --port=8888 \
+    --ip=0.0.0.0
