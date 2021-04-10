@@ -3,7 +3,15 @@
         {
             "command": "apputils:activate-command-palette",
             "keys": [
-                "Ctrl Shift P"
+                "Accel Shift C"
+            ],
+            "selector": "body",
+             "disabled": true
+        },
+        {
+            "command": "apputils:activate-command-palette",
+            "keys": [
+                "Accel Shift P"
             ],
             "selector": "body"
         },
