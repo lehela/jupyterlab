@@ -50,19 +50,23 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     # liblapack-dev \ 
     # && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install the pre-compiled packages from private repo
 RUN pip3 install --disable-pip-version-check \
     $wheels/numpy-1.20.2-cp39-cp39-manylinux2014_aarch64.whl \
     $wheels/pandas-1.2.3-cp39-cp39-linux_aarch64.whl \
     $wheels/bokeh-2.3.0-py3-none-any.whl \
     $wheels/matplotlib-3.4.1-cp39-cp39-manylinux2014_aarch64.whl \
     $wheels/seaborn-0.11.1-py3-none-any.whl \
-    --upgrade jupyterlab \
     && rm -rf /tmp/pip-tmp
 
 
-# Install more packages if needed (taken from jupyter/scipy-notebook)
+# Install packages from public repo (taken from jupyter/scipy-notebook)
 
-# RUN pip3 install --disable-pip-version-check \
+RUN pip3 install --disable-pip-version-check \
+    pytest \
+    pylint \
+    pylint-pytest \
+    --upgrade jupyterlab \
 #     beautifulsoup4 \
 #     bottleneck \
 #     cloudpickle \
@@ -86,6 +90,7 @@ RUN pip3 install --disable-pip-version-check \
 #     vincent \
 #     widgetsnbextension\
 #     xlrd 
+    && rm -rf /tmp/pip-tmp
 
 # Copy the scripts to be used for building and starting the jupyter lab server
 COPY scripts/*.sh /usr/bin/
