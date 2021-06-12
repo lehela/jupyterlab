@@ -1,2 +1,4 @@
 .ipynb_checkpoints
 __pycache__/
+.jupyter/migrated
+.jupyter/lab/workspaces/default-37a8.jupyterlab-workspace
